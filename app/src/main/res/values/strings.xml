@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Dnevnjak2.0</string>
+    <string name="login">Login</string>
+    <string name="action_log_in">Log in</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_email">Email</string>
+    <string name="preference_logged_in">LOGGED_IN</string>
+    <string name="invalid_password">Password must be >= 5 characters and not contain special characters: ~#^|$%&amp;*!></string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="ovde_ime_ide">Ovde ime ide</string>
+</resources>
