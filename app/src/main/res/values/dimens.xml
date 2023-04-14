@@ -2,4 +2,6 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="day_card_width">59dp</dimen>
+    <dimen name="day_card_height">183dp</dimen>
 </resources>

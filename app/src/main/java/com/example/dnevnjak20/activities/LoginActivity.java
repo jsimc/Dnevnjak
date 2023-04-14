@@ -1,4 +1,4 @@
-package com.example.dnevnjak20;
+package com.example.dnevnjak20.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
+import com.example.dnevnjak20.R;
 import com.example.dnevnjak20.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

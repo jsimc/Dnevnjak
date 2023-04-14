@@ -1,4 +1,6 @@
-package com.example.dnevnjak20;
+package com.example.dnevnjak20.activities;
+
+import com.example.dnevnjak20.R;
 
 public class LoginValidator {
     private static LoginValidator instance;
