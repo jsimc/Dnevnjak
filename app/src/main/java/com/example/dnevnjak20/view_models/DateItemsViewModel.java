@@ -6,20 +6,22 @@ import androidx.lifecycle.ViewModel;
 import com.example.dnevnjak20.model.DateItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DateItemsViewModel extends ViewModel {
 
-    public static int counter = 100;
+    public static int counter = 10000;
 
     private final MutableLiveData<List<DateItem>> dates = new MutableLiveData<>();
     private List<DateItem> dateItemList;
 
     public DateItemsViewModel() {
         dateItemList = new ArrayList<>();
-        int day = 27;
-        int month = 3;
-        int year = 2023;
+        int day = 1;
+        int month = 8;
+        int year = 2022;
         int danPoModulu;
         for(int i = 0; i < 1000; i++) {
             switch (month) {
@@ -46,6 +48,15 @@ public class DateItemsViewModel extends ViewModel {
         return dates.getValue().get(position);
     }
 
+    public DateItem getDateItem(int day, int month, int year) {
+        return dates.getValue().stream().filter(dateItem -> dateItem.equals(new DateItem(day, month, year)))
+                .findFirst().orElse(null);
+    }
+
+    public int getPositionForDate(int day, int month, int year) {
+        DateItem dateItem = getDateItem(day, month, year);
+        return dateItem == null ? -1 : dates.getValue().indexOf(dateItem);
+    }
 //    public void filterDates(String filter) {
 //    }
 

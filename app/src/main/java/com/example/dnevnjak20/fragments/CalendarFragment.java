@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +20,7 @@ import com.example.dnevnjak20.differ.DateItemDiffCallback;
 import com.example.dnevnjak20.model.DateItem;
 import com.example.dnevnjak20.view_models.DateItemsViewModel;
 
+import java.time.LocalDate;
 import java.time.Month;
 
 public class CalendarFragment extends Fragment {
@@ -88,5 +88,7 @@ public class CalendarFragment extends Fragment {
         });
         calendarFragmentBinding.listRv.setLayoutManager(new GridLayoutManager(getContext(), 7));
         calendarFragmentBinding.listRv.setAdapter(dateAdapter);
+        calendarFragmentBinding.listRv.scrollToPosition(dateItemsViewModel.getPositionForDate(
+                LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear()));
     }
 }

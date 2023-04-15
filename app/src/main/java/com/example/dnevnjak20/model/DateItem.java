@@ -2,6 +2,7 @@ package com.example.dnevnjak20.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class DateItem {
@@ -70,5 +71,20 @@ public class DateItem {
                 ", year=" + year +
                 ", dailyPlans=" + dailyPlans +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DateItem dateItem = (DateItem) o;
+        //TODO kad ubacis SQLite odkomentarisi ovo id == dateItem.id
+        return /*id == dateItem.id && */
+                day == dateItem.day && month == dateItem.month && year == dateItem.year;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, day, month, year);
     }
 }
