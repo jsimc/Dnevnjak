@@ -8,6 +8,7 @@ import static com.example.dnevnjak20.activities.LoginActivity.USER_PASS;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,18 +16,21 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.core.splashscreen.SplashScreen;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.dnevnjak20.R;
 import com.example.dnevnjak20.adapter.MainPagerAdapter;
 import com.example.dnevnjak20.databinding.ActivityMainBinding;
+import com.example.dnevnjak20.view_models.DateItemsViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private SharedPreferences sharedPreferences;
-
     private ViewPager viewPager;
+
+    private DateItemsViewModel dateItemsViewModel;
 
     private boolean keep = true;
     private final int DELAY = 2000;
@@ -58,11 +62,35 @@ public class MainActivity extends AppCompatActivity {
     }
     private void init() {
         viewPager = binding.viewPager;
+        dateItemsViewModel = new ViewModelProvider(this)
+                .get(DateItemsViewModel.class);
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(0);
     }
 
+//    private void initObservers() {
+//        // javljamo adapteru da
+//        dateItemsViewModel.getDates().observe(this, dates -> {
+//            dateAdapter.submitList(dates);
+//        });
+//
+//    }
+
     private void initListeners() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                binding.bottomNavigation.getMenu().getItem(position).setChecked(true);
+            }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         initNavigation();
     }
     @SuppressLint("NonConstantResourceId")
@@ -70,11 +98,15 @@ public class MainActivity extends AppCompatActivity {
         (binding.bottomNavigation).setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 // setCurrentItem metoda viewPager samo obavesti koji je Item trenutno aktivan i onda metoda getItem u adapteru setuje odredjeni fragment za tu poziciju
-                case R.id.navigation_1: viewPager.setCurrentItem(MainPagerAdapter.FRAGMENT_1, false); break;
-                case R.id.navigation_2: viewPager.setCurrentItem(MainPagerAdapter.FRAGMENT_2, false); break;
-                case R.id.navigation_3: viewPager.setCurrentItem(MainPagerAdapter.FRAGMENT_3, false); break;
+                case R.id.navigation_1: viewPager.setCurrentItem(MainPagerAdapter.CALENDAR_FRAGMENT, false); break;
+                case R.id.navigation_2: viewPager.setCurrentItem(MainPagerAdapter.DAILY_PLAN_FRAGMENT, false); break;
+                case R.id.navigation_3: viewPager.setCurrentItem(MainPagerAdapter.PROFILE_FRAGMENT, false); break;
             }
             return true;
         });
+    }
+
+    public ViewPager getViewPager() {
+        return viewPager;
     }
 }

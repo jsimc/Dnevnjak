@@ -48,7 +48,6 @@ public class DateAdapter extends ListAdapter<DateItem, DateAdapter.DateItemViewH
             itemView.setOnClickListener(v -> {
                 if (getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
                     onItemClicked.accept(getBindingAdapterPosition());
-                    System.out.println("getBindingAdapterPosition: " + getBindingAdapterPosition());
                 }
             });
         }

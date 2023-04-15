@@ -13,7 +13,6 @@ public class NonScrollableViewPager extends ViewPager {
     public NonScrollableViewPager(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         return false;

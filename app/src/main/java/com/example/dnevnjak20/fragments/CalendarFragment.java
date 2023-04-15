@@ -1,10 +1,12 @@
 package com.example.dnevnjak20.fragments;
 
+import static com.example.dnevnjak20.adapter.MainPagerAdapter.DAILY_PLAN_FRAGMENT;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.dnevnjak20.R;
+import com.example.dnevnjak20.activities.MainActivity;
 import com.example.dnevnjak20.adapter.DateAdapter;
+import com.example.dnevnjak20.adapter.MainPagerAdapter;
+import com.example.dnevnjak20.adapter.NonScrollableViewPager;
 import com.example.dnevnjak20.databinding.CalendarFragmentBinding;
 import com.example.dnevnjak20.differ.DateItemDiffCallback;
 import com.example.dnevnjak20.model.DateItem;
@@ -24,6 +31,7 @@ import java.time.LocalDate;
 import java.time.Month;
 
 public class CalendarFragment extends Fragment {
+    public static final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
 
     private DateItemsViewModel dateItemsViewModel;
     private DateAdapter dateAdapter;
@@ -47,8 +55,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void init() {
-        dateItemsViewModel = new ViewModelProvider(this)
-                .get(DateItemsViewModel.class);
+        dateItemsViewModel = new ViewModelProvider(requireActivity()).get(DateItemsViewModel.class);
         initObservers();
         initRecycler();
         initListeners();
@@ -81,10 +88,10 @@ public class CalendarFragment extends Fragment {
     private void initRecycler() {
         dateAdapter = new DateAdapter(new DateItemDiffCallback(), dateItem -> {
             //TODO ovde kad se klikne na dateItem ce da se prebaci na DailyPlan Fragment za taj dan
-//            FragmentTransaction transaction =
-//            Toast.makeText(getContext(), dateItem.getYear() + "", Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), dateItem+"", Toast.LENGTH_SHORT).show();
-//            Toast.makeText(getContext(), Month.of(dateItem.getMonth())+"", Toast.LENGTH_SHORT).show();
+            dateItemsViewModel.setFocusedPosition(dateItem.getPosition());
+            ViewPager viewPager = ((MainActivity)getActivity()).getViewPager();
+            viewPager.setCurrentItem(DAILY_PLAN_FRAGMENT, false);
+//            Toast.makeText(getContext(), dateItem.getPosition()+"", Toast.LENGTH_SHORT).show();
         });
         calendarFragmentBinding.listRv.setLayoutManager(new GridLayoutManager(getContext(), 7));
         calendarFragmentBinding.listRv.setAdapter(dateAdapter);

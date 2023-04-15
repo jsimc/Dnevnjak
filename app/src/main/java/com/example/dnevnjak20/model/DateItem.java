@@ -11,12 +11,21 @@ public class DateItem {
     private int month;
     private int year;
 
+    private int position;
+
     private List<Plan> dailyPlans;
 
     public DateItem(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
+        dailyPlans = new ArrayList<>();
+    }
+    public DateItem(int day, int month, int year, int position) {
+        this.day = day;
+        this.month = month;
+        this.year = year;
+        this.position = position;
         dailyPlans = new ArrayList<>();
     }
 
@@ -46,6 +55,10 @@ public class DateItem {
 
     public int getId() {
         return id;
+    }
+
+    public int getPosition() {
+        return position;
     }
 
     public List<Plan> getDailyPlans() {

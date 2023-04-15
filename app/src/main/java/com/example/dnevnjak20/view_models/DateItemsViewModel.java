@@ -1,5 +1,6 @@
 package com.example.dnevnjak20.view_models;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -15,9 +16,23 @@ public class DateItemsViewModel extends ViewModel {
     public static int counter = 10000;
 
     private final MutableLiveData<List<DateItem>> dates = new MutableLiveData<>();
+    private final MutableLiveData<Integer> focusedPosition = new MutableLiveData<>();
     private List<DateItem> dateItemList;
+    private int focusedPosition1;
+
+//    static {
+//        new DateItemsViewModel();
+//    }
 
     public DateItemsViewModel() {
+        initDateItems();
+        // We are doing this because cars.setValue in the background is first checking if the reference on the object is same
+        // and if it is it will not do notifyAll. By creating a new list, we get the new reference everytime
+        List<DateItem> listToSubmit = new ArrayList<>(dateItemList);
+        dates.setValue(listToSubmit);
+    }
+
+    private void initDateItems() {
         dateItemList = new ArrayList<>();
         int day = 1;
         int month = 8;
@@ -29,19 +44,23 @@ public class DateItemsViewModel extends ViewModel {
                 case 1: case 3: case 5: case 7: case 8: case 10: case 12: danPoModulu = 31; break;
                 default: danPoModulu = 30;
             }
-            dateItemList.add(new DateItem(day, month, year));
+            dateItemList.add(new DateItem(day, month, year, i));
             day = day%danPoModulu + 1;
             month = day == 1 ? month%12 + 1 : month;
             year = day == 1 ? (month == 1 ? year+1: year) : year;
         }
-        // We are doing this because cars.setValue in the background is first checking if the reference on the object is same
-        // and if it is it will not do notifyAll. By creating a new list, we get the new reference everytime
-        List<DateItem> listToSubmit = new ArrayList<>(dateItemList);
-        dates.setValue(listToSubmit);
     }
 
     public MutableLiveData<List<DateItem>> getDates() {
         return dates;
+    }
+
+    public LiveData<Integer> getFocusedPosition() {
+        return focusedPosition;
+    }
+
+    public void setFocusedPosition(int newPosition) {
+        focusedPosition.setValue(newPosition);
     }
 
     public DateItem getDateItemAtPosition(int position) {

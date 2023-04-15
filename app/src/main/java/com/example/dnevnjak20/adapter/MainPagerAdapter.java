@@ -13,24 +13,33 @@ import com.example.dnevnjak20.fragments.ProfileFragment;
 public class MainPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[]{"Calendar", "Daily Plan", "Profile"};
     private final int ITEM_COUNT = 3;
-    public static final int FRAGMENT_1 = 0;
-    public static final int FRAGMENT_2 = 1;
-    public static final int FRAGMENT_3 = 2;
+    public static final int CALENDAR_FRAGMENT = 0;
+    public static final int DAILY_PLAN_FRAGMENT = 1;
+    public static final int PROFILE_FRAGMENT = 2;
+
+    private Fragment calendarFragment;
+    private Fragment dailyPlanFragmet;
+    private Fragment profileFragment;
+
 
     public MainPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        calendarFragment = new CalendarFragment();
+        dailyPlanFragmet = new DailyPlanFragment();
+        profileFragment = new ProfileFragment();
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case FRAGMENT_1: return new CalendarFragment();
-            case FRAGMENT_2: return new DailyPlanFragment();
-            case FRAGMENT_3: return new ProfileFragment();
-            default: return new ProfileFragment();
+            case CALENDAR_FRAGMENT: return calendarFragment;
+            case DAILY_PLAN_FRAGMENT: return dailyPlanFragmet;
+            case PROFILE_FRAGMENT: return profileFragment;
+            default: return calendarFragment;
         }
     }
+
 
     @Override
     public int getCount() {
