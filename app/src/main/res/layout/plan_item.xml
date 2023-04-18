@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/purple_200">
+
+    <LinearLayout
+        android:id="@+id/planItemLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/planVector"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/plan_vector"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:id="@+id/verticalLL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/upperLL"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/timeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/schedule48x48"
+                    android:gravity="center"
+                    android:hint="9:30 - 10:00"
+                    android:paddingEnd="50dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <ImageButton
+                    android:id="@+id/deleteIv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#9444F6"
+                    android:contentDescription="Delete plan"
+                    app:srcCompat="@drawable/delete48x48" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bottomLL"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:hint="Dentist"
+                    android:paddingEnd="137dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlCompat" />
+
+                <ImageButton
+                    android:id="@+id/editIv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="#9444F6"
+                    android:contentDescription="Edit plan"
+                    app:srcCompat="@drawable/edit48x48" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

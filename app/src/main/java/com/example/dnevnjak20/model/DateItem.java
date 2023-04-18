@@ -65,11 +65,13 @@ public class DateItem {
         return dailyPlans;
     }
 
+    // Returns false if plan time is already taken (busy)
+    // and doesn't add it
     public boolean addPlan(Plan plan) {
-        //TODO add plan ukoliko termin nije zauzet???
-        //proveri jel radi
-        if(dailyPlans.stream().noneMatch(plan1 -> plan1.getPlanTimeFrom().isAfter(plan.getPlanTimeTo()) ||
-                plan1.getPlanTimeTo().isBefore(plan.getPlanTimeFrom())))
+        // TODO add plan ukoliko termin nije zauzet???
+        // proveri jel radi
+        // sameTime vraca true ukoliko se podudaraju
+        if(dailyPlans.stream().anyMatch(plan::sameTime))
             return false;
         dailyPlans.add(plan);
         return true;

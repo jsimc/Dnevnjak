@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/headerTv"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="@dimen/headerTv_height"
             android:textAlignment="center"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"

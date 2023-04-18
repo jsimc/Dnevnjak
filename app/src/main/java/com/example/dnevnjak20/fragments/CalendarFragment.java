@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,7 +79,7 @@ public class CalendarFragment extends Fragment {
     }
 
     private void initObservers() {
-        // javljamo adapteru da
+        // javljamo adapteru koji posle javlja recycler view-u da se promenilo nesto u livedata dates.
         dateItemsViewModel.getDates().observe(getViewLifecycleOwner(), dates -> {
             dateAdapter.submitList(dates);
         });
@@ -89,9 +90,10 @@ public class CalendarFragment extends Fragment {
         dateAdapter = new DateAdapter(new DateItemDiffCallback(), dateItem -> {
             //TODO ovde kad se klikne na dateItem ce da se prebaci na DailyPlan Fragment za taj dan
             dateItemsViewModel.setFocusedPosition(dateItem.getPosition());
+            dateItemsViewModel.setPlansForTheDay(dateItem.getDailyPlans());
             ViewPager viewPager = ((MainActivity)getActivity()).getViewPager();
             viewPager.setCurrentItem(DAILY_PLAN_FRAGMENT, false);
-//            Toast.makeText(getContext(), dateItem.getPosition()+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), dateItem+"", Toast.LENGTH_SHORT).show();
         });
         calendarFragmentBinding.listRv.setLayoutManager(new GridLayoutManager(getContext(), 7));
         calendarFragmentBinding.listRv.setAdapter(dateAdapter);

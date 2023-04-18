@@ -9,6 +9,7 @@
     <item
         android:id="@+id/navigation_2"
         android:icon="@drawable/daily_plan_vector"
+        android:enabled="false"
         android:title="@string/daily_plan" />
 
     <item

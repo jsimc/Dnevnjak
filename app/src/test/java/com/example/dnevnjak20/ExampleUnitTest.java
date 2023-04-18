@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,16 +15,17 @@ import java.time.LocalDate;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        int day, month, year;
-        LocalDate now = LocalDate.now();
-        day = now.getDayOfMonth();
-        month = now.getMonthValue();
-        year = now.getYear();
-        System.out.println("now: " + now);
-        System.out.println("day: " + day);
-        System.out.println("month: " + month);
-        System.out.println("year: " + year);
+//        int day, month, year;
+//        LocalDate now = LocalDate.now();
+//        day = now.getDayOfMonth();
+//        month = now.getMonthValue();
+//        year = now.getYear();
+//        System.out.println("now: " + now);
+//        System.out.println("day: " + day);
+//        System.out.println("month: " + month);
+//        System.out.println("year: " + year);
 
-
+        LocalTime myTime = LocalTime.of(11, 45);
+        System.out.println(myTime);
     }
 }

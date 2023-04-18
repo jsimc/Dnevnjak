@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 
 import androidx.core.splashscreen.SplashScreen;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,13 +69,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(0);
     }
 
-//    private void initObservers() {
-//        // javljamo adapteru da
-//        dateItemsViewModel.getDates().observe(this, dates -> {
-//            dateAdapter.submitList(dates);
-//        });
-//
-//    }
 
     private void initListeners() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -99,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 // setCurrentItem metoda viewPager samo obavesti koji je Item trenutno aktivan i onda metoda getItem u adapteru setuje odredjeni fragment za tu poziciju
                 case R.id.navigation_1: viewPager.setCurrentItem(MainPagerAdapter.CALENDAR_FRAGMENT, false); break;
-                case R.id.navigation_2: viewPager.setCurrentItem(MainPagerAdapter.DAILY_PLAN_FRAGMENT, false); break;
+                case R.id.navigation_2: /*viewPager.setCurrentItem(MainPagerAdapter.DAILY_PLAN_FRAGMENT, false); */break;
                 case R.id.navigation_3: viewPager.setCurrentItem(MainPagerAdapter.PROFILE_FRAGMENT, false); break;
             }
             return true;

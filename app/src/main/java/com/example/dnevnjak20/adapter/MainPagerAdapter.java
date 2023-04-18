@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.dnevnjak20.fragments.CalendarFragment;
 import com.example.dnevnjak20.fragments.DailyPlanFragment;
+import com.example.dnevnjak20.fragments.FragmentHolder;
 import com.example.dnevnjak20.fragments.ProfileFragment;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
@@ -25,7 +26,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public MainPagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         calendarFragment = new CalendarFragment();
-        dailyPlanFragmet = new DailyPlanFragment();
+        dailyPlanFragmet = new FragmentHolder();
         profileFragment = new ProfileFragment();
     }
 

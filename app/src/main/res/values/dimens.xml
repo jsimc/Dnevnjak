@@ -3,5 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="day_card_width">59dp</dimen>
-    <dimen name="day_card_height">150dp</dimen> <!-- it was: 183dp-->
+    <dimen name="day_card_height">150dp</dimen>
+    <dimen name="headerTv_height">45dp</dimen>
+    <dimen name="plan_item_height">100dp</dimen> <!-- it was: 183dp-->
 </resources>
