@@ -78,10 +78,10 @@ public class DailyPlanFragment extends Fragment {
             ft.replace(R.id.fragment_holder_fcv, new PlanPagerFragment());
             ft.addToBackStack(null);
             ft.commit();
-            Menu menu =((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation)).getMenu();
-            for(int i = 0; i < menu.size(); i++) {
-                menu.getItem(i).setEnabled(false);
-            }
+//            Menu menu =((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation)).getMenu();
+//            for(int i = 0; i < menu.size(); i++) {
+//                menu.getItem(i).setEnabled(false);
+//            }
         });
         binding.planRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.planRv.setAdapter(planAdapter);
@@ -137,10 +137,10 @@ public class DailyPlanFragment extends Fragment {
             ft.replace(R.id.fragment_holder_fcv, new CreatePlanFragment());
             ft.addToBackStack(null);
             ft.commit();
-            Menu menu =((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation)).getMenu();
-            for(int i = 0; i < menu.size(); i++) {
-                menu.getItem(i).setEnabled(false);
-            }
+//            Menu menu =((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation)).getMenu();
+//            for(int i = 0; i < menu.size(); i++) {
+//                menu.getItem(i).setEnabled(false);
+//            }
         });
 ///////////////////////////////////////////////////////////////////////////////////////////
     }

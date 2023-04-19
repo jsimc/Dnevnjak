@@ -30,6 +30,7 @@ import com.example.dnevnjak20.view_models.DateItemsViewModel;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 
 public class CalendarFragment extends Fragment {
     public static final String CALENDAR_FRAGMENT_TAG = "calendar_fragment";
@@ -83,7 +84,9 @@ public class CalendarFragment extends Fragment {
         dateItemsViewModel.getDates().observe(getViewLifecycleOwner(), dates -> {
             dateAdapter.submitList(dates);
         });
-
+        dateItemsViewModel.getPlansForTheDay().observe(getViewLifecycleOwner(), plans -> {
+            dateAdapter.notifyDataSetChanged();
+        });
     }
 
     private void initRecycler() {

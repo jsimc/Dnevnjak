@@ -89,13 +89,6 @@ public class PlanAdapter extends ListAdapter<Plan, PlanAdapter.PlanViewHolder> {
                 ft.commit();
 
                 dateItemViewModel.setFocusedPlan(dateItemViewModel.getPlansForTheDay().getValue().get(getBindingAdapterPosition()));
-                //TODO disable menu OVO JEE FEATURE
-                // ideja je mozda bila da ovaj tu kod dole prebacimo npr u mainActivity ili u mainPageAdapter,
-                // a da u view modelu imamo boolean flag kojeg posmatra nas mainpageadapter
-//                Menu menu =((BottomNavigationView)itemView.findViewById(R.id.bottomNavigation)).getMenu();
-//                for(int i = 0; i < menu.size(); i++) {
-//                    menu.getItem(i).setEnabled(false);
-//                }
             });
             //////////////////////////////////////////////////////////////////////////////
         }
@@ -105,10 +98,10 @@ public class PlanAdapter extends ListAdapter<Plan, PlanAdapter.PlanViewHolder> {
             ((TextView)itemView.findViewById(R.id.timeTv)).setText(sb);
             ((TextView)itemView.findViewById(R.id.nameTv)).setText(plan.getName());
             switch(plan.getPriority()) {
-                case LOW_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(Color.GREEN); break;
-                case MID_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(Color.YELLOW); break;
-                case HIGH_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(Color.RED); break;
-                default: itemView.findViewById(R.id.planVector).setBackgroundColor(Color.GREEN); break;
+                case LOW_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(itemView.getResources().getColor(R.color.lowButton, null)); break;
+                case MID_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(itemView.getResources().getColor(R.color.midButton, null)); break;
+                case HIGH_PRIORITY: itemView.findViewById(R.id.planVector).setBackgroundColor(itemView.getResources().getColor(R.color.highButton, null)); break;
+                default: itemView.findViewById(R.id.planVector).setBackgroundColor(itemView.getResources().getColor(R.color.lowButton, null)); break;
             }
             if(plan.getPlanDate().isBefore(LocalDate.now()) ||
                     (plan.getPlanDate().isEqual(LocalDate.now()) && plan.getPlanTimeTo().isBefore(LocalTime.now()))) {

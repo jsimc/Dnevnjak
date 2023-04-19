@@ -1,9 +1,13 @@
 package com.example.dnevnjak20.model;
 
+import com.example.dnevnjak20.model.enums.ObligationPriority;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DateItem {
@@ -77,6 +81,12 @@ public class DateItem {
         dailyPlans.add(plan);
         Collections.sort(dailyPlans);
         return true;
+    }
+
+    public ObligationPriority getHighestPriority() {
+        List<ObligationPriority> priorities = getDailyPlans().stream().map(Plan::getPriority)
+                .sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        return priorities.isEmpty() ? ObligationPriority.ALL : priorities.get(0);
     }
 
     @Override

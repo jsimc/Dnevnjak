@@ -2,6 +2,7 @@ package com.example.dnevnjak20.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dnevnjak20.R;
 import com.example.dnevnjak20.model.DateItem;
+import com.example.dnevnjak20.model.Plan;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class DateAdapter extends ListAdapter<DateItem, DateAdapter.DateItemViewHolder> {
@@ -41,6 +44,7 @@ public class DateAdapter extends ListAdapter<DateItem, DateAdapter.DateItemViewH
         DateItem dateItem = getItem(position);
         holder.bind(dateItem);
     }
+
     public static class DateItemViewHolder extends RecyclerView.ViewHolder {
         // Ovo Consumer<> je kao neki funkcionalni interfejs koji uzima funkciju
         public DateItemViewHolder(@NonNull View itemView, Context context, Consumer<Integer> onItemClicked) {
@@ -55,6 +59,12 @@ public class DateAdapter extends ListAdapter<DateItem, DateAdapter.DateItemViewH
         @SuppressLint("SetTextI18n")
         public void bind(DateItem dateItem) {
             ((TextView)itemView.findViewById(R.id.dateItemTv)).setText(dateItem.getDay()+"");
+            switch(dateItem.getHighestPriority()) {
+                case LOW_PRIORITY: itemView.findViewById(R.id.dateItemTv).setBackgroundColor(itemView.getResources().getColor(R.color.lowButton, null)); break;
+                case MID_PRIORITY: itemView.findViewById(R.id.dateItemTv).setBackgroundColor(itemView.getResources().getColor(R.color.midButton, null)); break;
+                case HIGH_PRIORITY: itemView.findViewById(R.id.dateItemTv).setBackgroundColor(itemView.getResources().getColor(R.color.highButton, null)); break;
+                default: itemView.findViewById(R.id.dateItemTv).setBackgroundColor(itemView.getResources().getColor(R.color.purple_200)); break;
+            }
         }
     }
 }
