@@ -77,15 +77,20 @@ public class EditPlanFragment extends Fragment {
         // Header
         binding.editPlanHeaderTv.setText(getCurrDateString());
         // Priorities
+        priority = plan.getValue().getPriority();
         setPriorityBtnChecked();
         // Title
-        binding.editTitleEt.setText(plan.getValue().getName());
+        planName = plan.getValue().getName();
+        binding.editTitleEt.setText(planName);
         // From
-        binding.editFromBtn.setText(String.format(Locale.getDefault(),"From: %02d:%02d", plan.getValue().getPlanTimeFrom().getHour(), plan.getValue().getPlanTimeFrom().getMinute()));
+        planTimeFrom = plan.getValue().getPlanTimeFrom();
+        binding.editFromBtn.setText(String.format(Locale.getDefault(),"From: %02d:%02d", planTimeFrom.getHour(), planTimeFrom.getMinute()));
         // To
-        binding.editToBtn.setText(String.format(Locale.getDefault(),"From: %02d:%02d", plan.getValue().getPlanTimeTo().getHour(), plan.getValue().getPlanTimeTo().getMinute()));
+        planTimeTo = plan.getValue().getPlanTimeTo();
+        binding.editToBtn.setText(String.format(Locale.getDefault(),"From: %02d:%02d", planTimeTo.getHour(), planTimeTo.getMinute()));
         // Long info
-        binding.editInfoEt.setText(plan.getValue().getLongInfo());
+        longInfo = plan.getValue().getLongInfo();
+        binding.editInfoEt.setText(longInfo);
         initListeners();
     }
 
@@ -106,19 +111,19 @@ public class EditPlanFragment extends Fragment {
     private void initListeners() {
         //////////// PRIORITY BUTTONS ////////////////////////
         binding.editLowBtn.setOnClickListener(v -> {
-            plan.getValue().setPriority(ObligationPriority.LOW_PRIORITY);
+            priority = ObligationPriority.LOW_PRIORITY;
             binding.editLowBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500, null)));
             binding.editMidBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.midButton, null)));
             binding.editHighBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.highButton, null)));
         });
         binding.editMidBtn.setOnClickListener(v -> {
-            plan.getValue().setPriority(ObligationPriority.MID_PRIORITY);
+            priority = ObligationPriority.MID_PRIORITY;
             binding.editLowBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lowButton, null)));
             binding.editMidBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500, null)));
             binding.editHighBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.highButton, null)));
         });
         binding.editHighBtn.setOnClickListener(v -> {
-            plan.getValue().setPriority(ObligationPriority.HIGH_PRIORITY);
+            priority = ObligationPriority.HIGH_PRIORITY;
             binding.editLowBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.lowButton, null)));
             binding.editMidBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.midButton, null)));
             binding.editHighBtn.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.purple_500, null)));
@@ -126,9 +131,11 @@ public class EditPlanFragment extends Fragment {
         //////////////////////////////////////////////////////////
         ////////// SAVE BUTTON ////////////////////////////////////
         binding.saveBtn.setOnClickListener(v -> {
-            //TODO sacuvaj u bazu LMAO ???
-            plan.getValue().setLongInfo(binding.editInfoEt.getText().toString());
-            plan.getValue().setName(binding.editTitleEt.getText().toString());
+            planDate = plan.getValue().getPlanDate();
+            longInfo = binding.editInfoEt.getText().toString();
+            planName = binding.editTitleEt.getText().toString();
+            Plan newPlan = new Plan(planName, priority, planDate, planTimeFrom, planTimeTo, longInfo);
+            System.out.println("ROWS AFFECTED: " + dateItemsViewModel.updatePlanForCurrDay(plan.getValue(), newPlan));
             Toast.makeText(requireContext(), "Plan changed!", Toast.LENGTH_SHORT).show();
             toDailyPlanView();
         });
@@ -149,7 +156,6 @@ public class EditPlanFragment extends Fragment {
             dateItemsViewModel.setFocusedPlan(
                     dateItemsViewModel.getPlansForTheDay().getValue().isEmpty() ? null : dateItemsViewModel.getPlansForTheDay().getValue().get(0));
             toDailyPlanView();
-            dbHelper.deletePlan(planToDelete);
         });
         //////////////////////////////////////////////////////////
 
@@ -157,7 +163,7 @@ public class EditPlanFragment extends Fragment {
         binding.editFromBtn.setOnClickListener(v -> {
             new TimePickerDialog(getContext(), (view1, hourOfDay, minute) -> {
                 binding.editFromBtn.setText(String.format(Locale.getDefault(),"From: %02d:%02d", hourOfDay, minute));
-                plan.getValue().setPlanTimeFrom(LocalTime.of(hourOfDay, minute));
+                planTimeFrom = LocalTime.of(hourOfDay, minute);
             }, 12, 0, false).show();
         });
         //////////////////////////////////////////////////////////
@@ -165,7 +171,7 @@ public class EditPlanFragment extends Fragment {
         ////////////////////// TO ////////////////////////////////
         binding.editToBtn.setOnClickListener(v -> {
             new TimePickerDialog(getContext(), (view1, hourOfDay, minute) -> {
-                plan.getValue().setPlanTimeTo(LocalTime.of(hourOfDay, minute));
+                planTimeTo = LocalTime.of(hourOfDay, minute);
                 binding.editToBtn.setText(String.format(Locale.getDefault(),"To: %02d:%02d", hourOfDay, minute));
             }, 12, 0, false).show();
         });

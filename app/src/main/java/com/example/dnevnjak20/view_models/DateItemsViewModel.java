@@ -165,6 +165,18 @@ public class DateItemsViewModel extends ViewModel {
         return plan;
     }
 
+    public int updatePlanForCurrDay(Plan oldPlan, Plan newPlan) {
+        int i = databaseHelper.updatePlan(oldPlan, newPlan);
+        focusedPlan.getValue().setName(newPlan.getName());
+        focusedPlan.getValue().setLongInfo(newPlan.getLongInfo());
+        focusedPlan.getValue().setPlanDate(newPlan.getPlanDate());
+        focusedPlan.getValue().setPlanTimeFrom(newPlan.getPlanTimeFrom());
+        focusedPlan.getValue().setPlanTimeTo(newPlan.getPlanTimeTo());
+        focusedPlan.getValue().setPriority(newPlan.getPriority());
+        focusedPlan.setValue(newPlan);
+        return i;
+    }
+
     public void setFocusedPlan(Plan focusedPlan) {
         this.focusedPlan.setValue(focusedPlan);
     }

@@ -87,6 +87,9 @@ public class CalendarFragment extends Fragment {
         dateItemsViewModel.getPlansForTheDay().observe(getViewLifecycleOwner(), plans -> {
             dateAdapter.notifyDataSetChanged();
         });
+        dateItemsViewModel.getFocusedPlan().observe(getViewLifecycleOwner(), plan -> {
+            dateAdapter.notifyDataSetChanged();
+        });
     }
 
     private void initRecycler() {

@@ -163,5 +163,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(DBColumns.USER_PASSWORD, newPassword);
         return db.update(DBTables.USER_TABLE, cv, where, new String[]{username, email, oldPassword});
     }
+    public int updatePlan(Plan oldPlan, Plan newPlan) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = DBColumns.PLAN_DATE + " = ? AND " +
+                DBColumns.PLAN_TIME_FROM + " = ?";
+        ContentValues cv = new ContentValues();
+        cv.put(DBColumns.PLAN_TIME_FROM, newPlan.getPlanTimeFrom().toString());
+        cv.put(DBColumns.PLAN_TIME_TO, newPlan.getPlanTimeTo().toString());
+        cv.put(DBColumns.PLAN_DATE, newPlan.getPlanDate().toString());
+        cv.put(DBColumns.PLAN_NAME, newPlan.getName());
+        cv.put(DBColumns.PLAN_LONG_INFO, newPlan.getLongInfo());
+        cv.put(DBColumns.PLAN_PRIORITY, newPlan.getPriority().toString());
+        return db.update(DBTables.PLAN_TABLE, cv, where, new String[]{oldPlan.getPlanDate().toString(), oldPlan.getPlanTimeFrom().toString()});
+    }
 
 }
