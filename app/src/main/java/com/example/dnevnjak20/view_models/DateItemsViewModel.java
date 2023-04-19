@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class DateItemsViewModel extends ViewModel {
@@ -22,6 +23,7 @@ public class DateItemsViewModel extends ViewModel {
     private final MutableLiveData<List<DateItem>> dates = new MutableLiveData<>();
     private final MutableLiveData<List<Plan>> plansForTheDay = new MutableLiveData<>();
     private final MutableLiveData<Integer> focusedPosition = new MutableLiveData<>();
+    private final MutableLiveData<Plan> focusedPlan = new MutableLiveData<>();
     private List<DateItem> dateItemList;
 
 //    static {
@@ -98,6 +100,7 @@ public class DateItemsViewModel extends ViewModel {
     }
 
     // Filter plans for the day, day is obtained using focusedPosition
+    // for filter by priority
     public void filterPlans(ObligationPriority obligationPriority) {
         DateItem dateItem = getDateItemAtPosition(focusedPosition.getValue());
         // ako je kliknuto dugme ALL vraca samo sve dane
@@ -112,6 +115,7 @@ public class DateItemsViewModel extends ViewModel {
                 .collect(Collectors.toList()));
         plansForTheDay.setValue(listToSubmit);
     }
+    // filtering by date, for show past obligations
     public void filterPlans(LocalDateTime now) {
         DateItem dateItem = getDateItemAtPosition(focusedPosition.getValue());
         List<Plan> listToSubmit = new ArrayList<>(
@@ -122,6 +126,16 @@ public class DateItemsViewModel extends ViewModel {
                         .collect(Collectors.toList()));
         plansForTheDay.setValue(listToSubmit);
     }
+    //filtering by name, for search by name
+    public void filterPlans(String substr){
+        DateItem dateItem = getDateItemAtPosition(focusedPosition.getValue());
+        List<Plan> listToSubmit = new ArrayList<>(
+                dateItem.getDailyPlans().stream()
+                        .filter(plan -> plan.getName().toLowerCase().contains(substr.toLowerCase()))
+                        .collect(Collectors.toList())
+        );
+        plansForTheDay.setValue(listToSubmit);
+    }
 
     public boolean addPlanForCurrDay(Plan plan) {
         if (!getCurrentDateItem().addPlan(plan)) return false;
@@ -129,10 +143,18 @@ public class DateItemsViewModel extends ViewModel {
         return true;
     }
 
-    public boolean removePlanForCurrDay(Plan plan) {
-        boolean isDeleted = getCurrentDateItem().getDailyPlans().remove(plan);
+    public Plan removePlanForCurrDay(Plan plan) {
+        getCurrentDateItem().getDailyPlans().remove(plan);
         this.plansForTheDay.setValue(new ArrayList<>(getCurrentDateItem().getDailyPlans()));
-        return isDeleted;
+        return plan;
+    }
+
+    public void setFocusedPlan(Plan focusedPlan) {
+        this.focusedPlan.setValue(focusedPlan);
+    }
+
+    public LiveData<Plan> getFocusedPlan() {
+        return focusedPlan;
     }
 
     //TODO ovde ces da ubacujes planove

@@ -1,6 +1,8 @@
 package com.example.dnevnjak20.fragments;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,9 +20,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.dnevnjak20.R;
 import com.example.dnevnjak20.adapter.PlanAdapter;
+import com.example.dnevnjak20.adapter.WholePlanPagerAdapter;
 import com.example.dnevnjak20.databinding.CalendarFragmentBinding;
 import com.example.dnevnjak20.databinding.FragmentDailyPlanBinding;
 import com.example.dnevnjak20.differ.PlanDiffCallback;
+import com.example.dnevnjak20.listeners.SearchTextWatcher;
 import com.example.dnevnjak20.model.DateItem;
 import com.example.dnevnjak20.model.Plan;
 import com.example.dnevnjak20.model.enums.ObligationPriority;
@@ -30,6 +35,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DailyPlanFragment extends Fragment {
     public static final String DAILY_PLAN_FRAGMENT_TAG = "daily_plan_fragment";
@@ -64,7 +71,17 @@ public class DailyPlanFragment extends Fragment {
     private void initRecycler() {
         planAdapter = new PlanAdapter(new PlanDiffCallback(), dateItemsViewModel, plan -> {
             //TODO kad se klikne na plan da se otvori detaljan prikaz tog plana
-            Toast.makeText(getContext(), plan.getName()+"", Toast.LENGTH_SHORT).show();
+            dateItemsViewModel.setFocusedPlan(plan);
+
+            FragmentManager fm = getParentFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.fragment_holder_fcv, new PlanPagerFragment());
+            ft.addToBackStack(null);
+            ft.commit();
+            Menu menu =((BottomNavigationView)getActivity().findViewById(R.id.bottomNavigation)).getMenu();
+            for(int i = 0; i < menu.size(); i++) {
+                menu.getItem(i).setEnabled(false);
+            }
         });
         binding.planRv.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.planRv.setAdapter(planAdapter);
@@ -82,6 +99,10 @@ public class DailyPlanFragment extends Fragment {
         dateItemsViewModel.getPlansForTheDay().observe(getViewLifecycleOwner(), plans -> {
             planAdapter.submitList(plans);
         });
+        //TODO
+//        dateItemsViewModel.getFocusedPlan().observe(getViewLifecycleOwner(), plan -> {
+//            planAdapter
+//        });
     }
 
     private void initListeners() {
@@ -108,11 +129,9 @@ public class DailyPlanFragment extends Fragment {
                 dateItemsViewModel.filterPlans(LocalDateTime.now());
             }
         });
-        //////////// BRISANJE OBAVEZE ///////////////////
-        ////// ALI TI DUGMICI SU MI U PLAN_ITEM KOJI JE VIEW HOLDER //////////
-
+        binding.searchEt.addTextChangedListener(new SearchTextWatcher(dateItemsViewModel));
+/////////////////////////////CHANGING TO CREATE PLAN FRAGMENT//////////////////////////////
         binding.floatingButton.setOnClickListener(v -> {
-            // e sad cela ova logika ide u novi fragment koji ce da zameni trenutni
             FragmentManager fm = getParentFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
             ft.replace(R.id.fragment_holder_fcv, new CreatePlanFragment());
@@ -122,48 +141,19 @@ public class DailyPlanFragment extends Fragment {
             for(int i = 0; i < menu.size(); i++) {
                 menu.getItem(i).setEnabled(false);
             }
-            //TODO add plan for that day
-//            Plan newPlan = new Plan();
-//            if(!dateItemsViewModel.addPlanForCurrDay(newPlan)){
-//                // ako je termin zauzet, onda neka izadje neki Toast ili sta vec postoji
-//                String str = "Already have a plan for time: " +
-//                        newPlan.getPlanDate() + " " +
-//                        newPlan.getPlanTimeFrom() + " - " +
-//                        newPlan.getPlanTimeTo();
-//                Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
-//            } else {
-//                showAddSnackBar(newPlan);
-//            }
         });
-    }
-
-    private void showAddSnackBar(Plan plan) {
-        Snackbar.make(binding.getRoot(), "Plan added", Snackbar.LENGTH_SHORT)
-                .setAction("Undo", view -> dateItemsViewModel.removePlanForCurrDay(plan))
-                .show();
+///////////////////////////////////////////////////////////////////////////////////////////
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("ON RESUME");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        System.out.println("ON STOP");
+        System.out.println("RESUME");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("ON PAUSE");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("ON START");
+        System.out.println("PAUSE");
     }
 }

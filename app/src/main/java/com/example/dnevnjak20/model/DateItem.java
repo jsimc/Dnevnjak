@@ -1,6 +1,7 @@
 package com.example.dnevnjak20.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -74,6 +75,7 @@ public class DateItem {
         if(dailyPlans.stream().anyMatch(plan::sameTime))
             return false;
         dailyPlans.add(plan);
+        Collections.sort(dailyPlans);
         return true;
     }
 

@@ -93,7 +93,7 @@ public class CalendarFragment extends Fragment {
             dateItemsViewModel.setPlansForTheDay(dateItem.getDailyPlans());
             ViewPager viewPager = ((MainActivity)getActivity()).getViewPager();
             viewPager.setCurrentItem(DAILY_PLAN_FRAGMENT, false);
-            Toast.makeText(getContext(), dateItem+"", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), dateItem+"", Toast.LENGTH_SHORT).show();
         });
         calendarFragmentBinding.listRv.setLayoutManager(new GridLayoutManager(getContext(), 7));
         calendarFragmentBinding.listRv.setAdapter(dateAdapter);

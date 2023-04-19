@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="splashBackground">#FF7F50</color>
     <color name="splashBackgroundNight">#671C00</color>
+    <color name="lowButton">#00FF0A</color>
+    <color name="midButton">#FF9800</color>
+    <color name="highButton">#FF1100</color>
 </resources>

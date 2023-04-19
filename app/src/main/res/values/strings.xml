@@ -21,4 +21,5 @@
     <string name="plan_title">Title</string>
     <string name="time_from">Time from - 23:59</string>
     <string name="time_to">Time to - 23:59</string>
+    <string name="search_plans">Search plans by name</string>
 </resources>

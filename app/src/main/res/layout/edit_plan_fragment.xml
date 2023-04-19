@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/create_plan_headerTv"
+        android:id="@+id/edit_plan_headerTv"
         android:layout_width="0dp"
         android:layout_height="@dimen/headerTv_height"
         android:textAlignment="center"
@@ -17,51 +17,51 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/setPriorityLL"
+        android:id="@+id/editPriorityLL"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/titleEt"
-        app:layout_constraintTop_toBottomOf="@+id/create_plan_headerTv">
-            <Button
-                android:id="@+id/setLowBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:backgroundTint="@color/lowButton"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="@string/low"/>
-            <Button
-                android:id="@+id/setMidBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:backgroundTint="@color/midButton"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="@string/mid"/>
-            <Button
-                android:id="@+id/setHighBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:backgroundTint="@color/highButton"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:text="@string/high"/>
+        app:layout_constraintBottom_toTopOf="@id/editTitleEt"
+        app:layout_constraintTop_toBottomOf="@+id/edit_plan_headerTv">
+        <Button
+            android:id="@+id/editLowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:backgroundTint="@color/lowButton"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/low"/>
+        <Button
+            android:id="@+id/editMidBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:backgroundTint="@color/midButton"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/mid"/>
+        <Button
+            android:id="@+id/editHighBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:backgroundTint="@color/highButton"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@string/high"/>
     </LinearLayout>
 
     <EditText
-        android:id="@+id/titleEt"
+        android:id="@+id/editTitleEt"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:paddingLeft="2dp"
@@ -74,12 +74,12 @@
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setPriorityLL"
-        app:layout_constraintBottom_toTopOf="@+id/timeLL"
+        app:layout_constraintTop_toBottomOf="@+id/editPriorityLL"
+        app:layout_constraintBottom_toTopOf="@+id/editTimeLL"
         />
 
     <LinearLayout
-        android:id="@+id/timeLL"
+        android:id="@+id/editTimeLL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="12dp"
@@ -89,11 +89,11 @@
         android:layout_marginBottom="12dp"
         android:orientation="horizontal"
         android:gravity="fill|center"
-        app:layout_constraintTop_toBottomOf="@id/titleEt"
+        app:layout_constraintTop_toBottomOf="@id/editTitleEt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/editFromBtn"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:layout_marginTop="12dp"
@@ -102,10 +102,10 @@
             android:text="From"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleEt"
-             />
+            app:layout_constraintTop_toBottomOf="@+id/editTitleEt"
+            />
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/editToBtn"
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:layout_marginTop="12dp"
@@ -118,7 +118,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/infoEt"
+        android:id="@+id/editInfoEt"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="12dp"
@@ -128,7 +128,7 @@
         android:background="#F0E5FF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeLL"
+        app:layout_constraintTop_toBottomOf="@id/editTimeLL"
         app:layout_constraintBottom_toTopOf="@id/buttonsLL"/>
 
     <LinearLayout
@@ -146,17 +146,28 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/createBtn"
+            android:id="@+id/saveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_weight="1"
-            android:text="Create"
+            android:text="Save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:text="Delete"
+            android:backgroundTint="@color/highButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/cancelBtn"
+            android:id="@+id/editCancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"

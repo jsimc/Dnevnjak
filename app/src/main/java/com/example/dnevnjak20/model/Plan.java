@@ -4,9 +4,10 @@ import com.example.dnevnjak20.model.enums.ObligationPriority;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 import java.util.Random;
 
-public class Plan {
+public class Plan implements Comparable<Plan>{
     private int id;
     // green, yellow or red
     private ObligationPriority priority;
@@ -20,17 +21,13 @@ public class Plan {
     private LocalTime planTimeFrom; //start of the plan in hours and minutes
     private LocalTime planTimeTo; //end of the plan in hours and minutes, optional???
 
-    public Plan() {
-        name = "Pablo";
-        planTimeFrom = LocalTime.of(19, 15);
-        planTimeTo = LocalTime.of(20, 15);
-        planDate = LocalDate.of(2023, 4, 20);
-        priority = ObligationPriority.LOW_PRIORITY;
-        longInfo = "long info";
-    }
-
-    public Plan(ObligationPriority priority) {
+    public Plan(String name, ObligationPriority priority, LocalDate planDate, LocalTime planTimeFrom, LocalTime planTimeTo, String longInfo) {
         this.priority = priority;
+        this.longInfo = longInfo;
+        this.name = name;
+        this.planDate = planDate;
+        this.planTimeFrom = planTimeFrom;
+        this.planTimeTo = planTimeTo;
     }
 
     public ObligationPriority getPriority() {
@@ -93,6 +90,20 @@ public class Plan {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plan plan = (Plan) o;
+        return /*id == plan.id && */
+                priority == plan.priority && Objects.equals(name, plan.name) && Objects.equals(planDate, plan.planDate) && Objects.equals(planTimeFrom, plan.planTimeFrom) && Objects.equals(planTimeTo, plan.planTimeTo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, priority, name, planDate, planTimeFrom, planTimeTo);
+    }
+
+    @Override
     public String toString() {
         return "Plan{" +
                 "name='" + name + '\'' +
@@ -100,5 +111,13 @@ public class Plan {
                 ", planTimeFrom=" + planTimeFrom +
                 ", planTimeTo=" + planTimeTo +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Plan p) {
+        if(this.getPlanDate().isEqual(p.planDate)) {
+            return this.getPlanTimeFrom().compareTo(p.getPlanTimeFrom());
+        }
+        return this.getPlanDate().compareTo(p.planDate);
     }
 }
