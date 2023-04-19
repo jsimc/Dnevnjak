@@ -1,7 +1,9 @@
 package com.example.dnevnjak20.fragments;
 
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,10 +22,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dnevnjak20.R;
+import com.example.dnevnjak20.activities.MainActivity;
 import com.example.dnevnjak20.databinding.CreatePlanFragmentBinding;
 import com.example.dnevnjak20.model.DateItem;
 import com.example.dnevnjak20.model.Plan;
+import com.example.dnevnjak20.model.User;
 import com.example.dnevnjak20.model.enums.ObligationPriority;
+import com.example.dnevnjak20.sqlite.DBColumns;
+import com.example.dnevnjak20.sqlite.DBTables;
+import com.example.dnevnjak20.sqlite.DatabaseHelper;
 import com.example.dnevnjak20.view_models.DateItemsViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButtonToggleGroup;
@@ -37,6 +44,7 @@ import java.util.Locale;
 public class CreatePlanFragment extends Fragment {
     private CreatePlanFragmentBinding binding;
     private DateItemsViewModel dateItemsViewModel;
+    private DatabaseHelper dbHelper;
 
     /////////// Needed for new Plan ////////////
     private String planName;
@@ -62,10 +70,11 @@ public class CreatePlanFragment extends Fragment {
 
     private void init() {
         dateItemsViewModel = new ViewModelProvider(requireActivity()).get(DateItemsViewModel.class);
+        dbHelper = ((MainActivity)getActivity()).getDbHelper();
         ///////// header ////////////////////////////////
         binding.createPlanHeaderTv.setText(getCurrDateString());
-        /////////////////////////////////////////////////
         initListeners();
+//        binding.setLowBtn.performClick();
     }
 
     private void initListeners() {
@@ -92,7 +101,7 @@ public class CreatePlanFragment extends Fragment {
         });
         //////////////////// CREATE BTN //////////////////////////////
         binding.createBtn.setOnClickListener(v -> {
-            checkAttributes();
+            if(!checkAttributes()) return;
             planName = binding.titleEt.getText().toString();
             planDate = getCurrDate();
             longInfo = binding.infoEt.getText().toString();
@@ -142,23 +151,24 @@ public class CreatePlanFragment extends Fragment {
             menu.getItem(i).setEnabled(true);
         }
     }
-    private void checkAttributes() {
+    private boolean checkAttributes() {
         if(priority == null) {
             Toast.makeText(requireContext(), "Choose a priority.", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if(planTimeFrom == null) {
             Toast.makeText(requireContext(), "Select starting time.", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if(planTimeTo == null) {
             Toast.makeText(requireContext(), "Select ending time.", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if(planTimeTo.isBefore(planTimeFrom)) {
             Toast.makeText(requireContext(), "Ending time has to be after starting time.", Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
+        return true;
     }
     private void showAddSnackBar(Plan plan) {
         Snackbar.make(binding.getRoot(), "Plan added", Snackbar.LENGTH_SHORT)

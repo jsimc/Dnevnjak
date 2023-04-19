@@ -20,10 +20,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.dnevnjak20.R;
+import com.example.dnevnjak20.activities.MainActivity;
 import com.example.dnevnjak20.databinding.EditPlanFragmentBinding;
 import com.example.dnevnjak20.model.DateItem;
 import com.example.dnevnjak20.model.Plan;
 import com.example.dnevnjak20.model.enums.ObligationPriority;
+import com.example.dnevnjak20.sqlite.DatabaseHelper;
 import com.example.dnevnjak20.view_models.DateItemsViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -39,6 +41,7 @@ import java.util.Locale;
 public class EditPlanFragment extends Fragment {
     private EditPlanFragmentBinding binding;
     private DateItemsViewModel dateItemsViewModel;
+    private DatabaseHelper dbHelper;
     private LiveData<Plan> plan;
     ///////////// Needed for editing a plan /////////////
     private String planName;
@@ -68,6 +71,7 @@ public class EditPlanFragment extends Fragment {
 
     private void init() {
         dateItemsViewModel = new ViewModelProvider(requireActivity()).get(DateItemsViewModel.class);
+        dbHelper = ((MainActivity)getActivity()).getDbHelper();
         System.out.println("DATEITEMSVIEWMODEL: " + dateItemsViewModel);
         plan = dateItemsViewModel.getFocusedPlan();
         // Header
@@ -138,12 +142,14 @@ public class EditPlanFragment extends Fragment {
 
         /////////////// DELETE BUTTON ////////////////////////////
         binding.deleteBtn.setOnClickListener(v -> {
+            Plan planToDelete= plan.getValue();
             dateItemsViewModel.removePlanForCurrDay(plan.getValue());
             // TODO oce li ovo da radi?
             showRemoveSnackBar(dateItemsViewModel.getFocusedPlan().getValue());
             dateItemsViewModel.setFocusedPlan(
                     dateItemsViewModel.getPlansForTheDay().getValue().isEmpty() ? null : dateItemsViewModel.getPlansForTheDay().getValue().get(0));
             toDailyPlanView();
+            dbHelper.deletePlan(planToDelete);
         });
         //////////////////////////////////////////////////////////
 

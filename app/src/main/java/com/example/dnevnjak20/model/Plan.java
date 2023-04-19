@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Plan implements Comparable<Plan>{
     private int id;
+    private transient int dateItemId;
     // green, yellow or red
     private ObligationPriority priority;
     // more info about the plan

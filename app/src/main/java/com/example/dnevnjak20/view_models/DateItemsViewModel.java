@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.dnevnjak20.model.DateItem;
 import com.example.dnevnjak20.model.Plan;
 import com.example.dnevnjak20.model.enums.ObligationPriority;
+import com.example.dnevnjak20.sqlite.DatabaseHelper;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class DateItemsViewModel extends ViewModel {
 
     public static int counter = 10000;
-
+    private DatabaseHelper databaseHelper;
     private final MutableLiveData<List<DateItem>> dates = new MutableLiveData<>();
     private final MutableLiveData<List<Plan>> plansForTheDay = new MutableLiveData<>();
     private final MutableLiveData<Integer> focusedPosition = new MutableLiveData<>();
@@ -31,11 +32,18 @@ public class DateItemsViewModel extends ViewModel {
 //    }
 
     public DateItemsViewModel() {
-        initDateItems();
         // We are doing this because cars.setValue in the background is first checking if the reference on the object is same
         // and if it is it will not do notifyAll. By creating a new list, we get the new reference everytime
-        List<DateItem> listToSubmit = new ArrayList<>(dateItemList);
-        dates.setValue(listToSubmit);
+//        List<DateItem> listToSubmit = new ArrayList<>(dateItemList);
+//        dates.setValue(listToSubmit);
+//        focusedPosition.setValue(getPositionForDate(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear()));
+//        plansForTheDay.setValue(new ArrayList<>(getDateItemAtPosition(focusedPosition.getValue()).getDailyPlans()));
+    }
+
+    public void setDatabaseHelper(DatabaseHelper databaseHelper) {
+        this.databaseHelper = databaseHelper;
+        initDateItems();
+        dates.setValue(new ArrayList<>(dateItemList));
         focusedPosition.setValue(getPositionForDate(LocalDate.now().getDayOfMonth(), LocalDate.now().getMonthValue(), LocalDate.now().getYear()));
         plansForTheDay.setValue(new ArrayList<>(getDateItemAtPosition(focusedPosition.getValue()).getDailyPlans()));
     }
@@ -53,9 +61,12 @@ public class DateItemsViewModel extends ViewModel {
                 default: danPoModulu = 30;
             }
             DateItem dateItemToAdd = new DateItem(day, month, year, i);
+            dateItemToAdd.getDailyPlans().addAll(databaseHelper.getPlansForTheDay(LocalDate.of(dateItemToAdd.getYear(), dateItemToAdd.getMonth(), dateItemToAdd.getDay()).toString()));
             //TODO kako da ovo ubacis u bazu da se sacuvaju vrednosti koje si vec ubacivala. Moraces da prolazis kroz bazu i da stavljas iteme iz baze
 //            System.out.println("ADDED PLAN : " + dateItemToAdd.addPlan(new Plan()));
             dateItemList.add(dateItemToAdd);
+            if(!dateItemToAdd.getDailyPlans().isEmpty())
+                System.out.println("DAILYPLANS FOR DAY " + dateItemToAdd.getDay() + ": " + dateItemToAdd.getDailyPlans());
             day = day%danPoModulu + 1;
             month = day == 1 ? month%12 + 1 : month;
             year = day == 1 ? (month == 1 ? year+1: year) : year;
@@ -90,15 +101,14 @@ public class DateItemsViewModel extends ViewModel {
         return dates.getValue().stream().filter(dateItem -> dateItem.equals(new DateItem(day, month, year)))
                 .findFirst().orElse(null);
     }
-
     public int getPositionForDate(int day, int month, int year) {
         DateItem dateItem = getDateItem(day, month, year);
         return dateItem == null ? -1 : dates.getValue().indexOf(dateItem);
     }
+
     public DateItem getCurrentDateItem() {
         return getDateItemAtPosition(getFocusedPosition().getValue());
     }
-
     // Filter plans for the day, day is obtained using focusedPosition
     // for filter by priority
     public void filterPlans(ObligationPriority obligationPriority) {
@@ -127,6 +137,7 @@ public class DateItemsViewModel extends ViewModel {
         plansForTheDay.setValue(listToSubmit);
     }
     //filtering by name, for search by name
+
     public void filterPlans(String substr){
         DateItem dateItem = getDateItemAtPosition(focusedPosition.getValue());
         List<Plan> listToSubmit = new ArrayList<>(
@@ -140,11 +151,13 @@ public class DateItemsViewModel extends ViewModel {
     public boolean addPlanForCurrDay(Plan plan) {
         if (!getCurrentDateItem().addPlan(plan)) return false;
         this.plansForTheDay.setValue(new ArrayList<>(getCurrentDateItem().getDailyPlans()));
+        databaseHelper.savePlan(plan);
         return true;
     }
 
     public Plan removePlanForCurrDay(Plan plan) {
         getCurrentDateItem().getDailyPlans().remove(plan);
+        databaseHelper.deletePlan(plan);
         this.plansForTheDay.setValue(new ArrayList<>(getCurrentDateItem().getDailyPlans()));
         return plan;
     }
@@ -157,23 +170,7 @@ public class DateItemsViewModel extends ViewModel {
         return focusedPlan;
     }
 
-    //TODO ovde ces da ubacujes planove
-//    public int addDate(String pictureUrl, String manufacturer, String model) {
-//        int id = counter++;
-//        Car car = new Car(id, pictureUrl, manufacturer, model);
-//        carList.add(car);
-//        ArrayList<Car> listToSubmit = new ArrayList<>(carList);
-//        cars.setValue(listToSubmit);
-//        return id;
-//    }
-//
-//    public void removeCar(int id) {
-//        Optional<Car> carObject = carList.stream().filter(car -> car.getId() == id).findFirst();
-//        if (carObject.isPresent()) {
-//            carList.remove(carObject.get());
-//            ArrayList<Car> listToSubmit = new ArrayList<>(carList);
-//            cars.setValue(listToSubmit);
-//        }
-//    }
-
+    public DatabaseHelper getDatabaseHelper() {
+        return databaseHelper;
+    }
 }

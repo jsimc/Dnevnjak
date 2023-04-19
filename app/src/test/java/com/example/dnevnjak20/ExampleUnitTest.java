@@ -87,4 +87,16 @@ public class ExampleUnitTest {
         assertFalse(p1.equals(p2));
         assertTrue(p1.equals(p3));
     }
+
+    @Test
+    public void test4() {
+        LocalDate date = LocalDate.of(2023, 4, 15);
+        LocalTime time = LocalTime.of(14, 55);
+        String dateStr = date.toString();
+        System.out.println("Date: " + date);
+        System.out.println("Time: " + time);
+        System.out.println(LocalDate.parse(dateStr));
+        int b = 04;
+        System.out.println(b);
+    }
 }

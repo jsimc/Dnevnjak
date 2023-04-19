@@ -1,9 +1,13 @@
 package com.example.dnevnjak20.activities;
 
 import com.example.dnevnjak20.R;
+import com.example.dnevnjak20.model.User;
+import com.example.dnevnjak20.sqlite.DatabaseHelper;
 
 public class LoginValidator {
     private static LoginValidator instance;
+    private DatabaseHelper dbHelper;
+    private User user;
 
     private LoginValidator() {}
 
@@ -31,32 +35,36 @@ public class LoginValidator {
         return flagIsValid;
     }
 
-    private boolean isUserNameValid(String username) {
+    public boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
         }
         return !username.trim().isEmpty();
     }
 
-    private boolean isEmailValid(String email) {
+    public boolean isEmailValid(String email) {
         return email != null && email.matches("^[A-Za-z\\d]+@[A-Za-z]+\\.[A-Za-z]{2,}$");
     }
 
     // A placeholder password validation check
-    private boolean isPasswordValid(String password) {
+    public boolean isPasswordValid(String password) {
         if(password == null || password.trim().length() < 5) return false;
         return password.matches("^[^~#^|$%&*!]*$");
     }
 
     public boolean validateEmail(String email, LoginActivity loginActivity) {
-        return isEmailValid(email) && email.equals(loginActivity.getString(R.string.email));
+        return isEmailValid(email);
     }
 
     public boolean validateUsername(String username, LoginActivity loginActivity) {
-        return isUserNameValid(username) && username.equals(loginActivity.getString(R.string.username));
+        return isUserNameValid(username);
     }
 
     public boolean validatePassword(String password, LoginActivity loginActivity) {
-        return isPasswordValid(password) && password.equals(loginActivity.getString(R.string.password));
+        return isPasswordValid(password);
+    }
+
+    public void setDbHelper(DatabaseHelper dbHelper) {
+        this.dbHelper = dbHelper;
     }
 }

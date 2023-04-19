@@ -77,6 +77,7 @@ public class PlanAdapter extends ListAdapter<Plan, PlanAdapter.PlanViewHolder> {
                 Plan planToDelete = dateItemViewModel.getPlansForTheDay().getValue().get(getBindingAdapterPosition());
                 dateItemViewModel.removePlanForCurrDay(dateItemViewModel.getPlansForTheDay().getValue().get(getBindingAdapterPosition()));
                 Toast.makeText(context, "DELETED: " + planToDelete, Toast.LENGTH_SHORT).show();
+                dateItemViewModel.getDatabaseHelper().deletePlan(planToDelete);
             });
 
             /////////////////////////// CHANGE TO EDIT PLAN FRAGMENT //////////////////////
