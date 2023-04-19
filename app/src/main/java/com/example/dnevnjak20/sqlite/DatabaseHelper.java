@@ -148,8 +148,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return toReturnUsers;
     }
 
-    public void setDefaultUser() {
+    private void setDefaultUser() {
         saveUser(new User("jelena", "jelena@raf.rs", "Jelena1"));
+    }
+
+    public int setNewPassword(String username, String email, String oldPassword, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String where = DBColumns.USER_NAME + " = ? AND " +
+                DBColumns.USER_EMAIL + " = ? AND " +
+                DBColumns.USER_PASSWORD + " = ?";
+        ContentValues cv = new ContentValues();
+        cv.put(DBColumns.USER_NAME, username);
+        cv.put(DBColumns.USER_EMAIL, email);
+        cv.put(DBColumns.USER_PASSWORD, newPassword);
+        return db.update(DBTables.USER_TABLE, cv, where, new String[]{username, email, oldPassword});
     }
 
 }

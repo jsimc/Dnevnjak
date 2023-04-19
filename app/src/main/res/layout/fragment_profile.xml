@@ -8,33 +8,38 @@
 
     <ImageView
         android:id="@+id/profileIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="150dp"
+        android:background="@drawable/default_face"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/userNameTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
         android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileIv" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/userEmailTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
+        android:layout_marginBottom="36dp"
+        android:textSize="25sp"
+        android:textStyle="bold"
         android:text="email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/userNameTv" />
 
     <Button
         android:id="@+id/changePasswordBtn"
@@ -44,7 +49,10 @@
         android:text="Change Password"
         app:layout_constraintBottom_toTopOf="@+id/logOutBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userEmailTv"
+        app:layout_constraintVertical_bias="0.914" />
+
     <Button
         android:id="@+id/logOutBtn"
         android:layout_width="wrap_content"
