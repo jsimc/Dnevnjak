@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
         ///// change password //////
         binding.changePasswordBtn.setOnClickListener(v -> {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(requireContext());
-            alertDialog.setTitle("Values");
+            alertDialog.setTitle("Change password");
             EditText oldPass = new EditText(requireContext());
             EditText newPass = new EditText(requireContext());
             EditText confirmPass = new EditText(requireContext());
